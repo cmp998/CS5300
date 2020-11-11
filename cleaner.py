@@ -13,31 +13,53 @@ def clean_title(df):
 def clean_author(df):
     #author
     #print(df['author'])
-    df['author'] = df['author'].str.replace(r"&", ";")
-    #df['author'] = df['author'].apply(remove_etal)
-    df['author'] = df['author'].apply(name_swap)
-    df['author'] = df['author'].str.replace(r"\(.*\)", "")
     df['author'] = df['author'].str.lower()
+    df['author'] = df['author'].str.replace(r"&", ";")
+    df['author'] = df['author'].str.replace(r", -,?", ",")
+    df['author'] = df['author'].str.replace(r" and ", "")
+    df['author'] = df['author'].str.replace(r". - ", ";")
+    df['author'] = df['author'].apply(remove_etal)
+    df['author'] = df['author'].apply(name_swap)
+    df['author'] = df['author'].str.replace(r"\(.*\).*", "")
+    df['author'] = df['author'].str.replace(r"  ", " ")
+    df['author'] = df['author'].str.replace(r",? et[.?] al[.?]", "")
+    df['author'] = df['author'].str.replace(r", e.a.", "")
+    df['author'] = df['author'].str.replace(r" .ed", "")
+    df['author'] = df['author'].str.replace(r", et al.", "")
+    df['author'] = df['author'].str.strip()
     #print(df['author'])
 
 def name_swap(name):
     if name is None:
         return "NA"
+    #Mutliple authors ; sep
     elif name.count(';') >= 1:
         names = name.split(';')
         for i in range(len(names)):
+            #Check if individual author is L,F
             if names[i].count(',') == 1:
                 names[i] = names[i].split(',')[1].strip(' ') + " " + names[i].split(',')[0]
         return ",".join(names)
-    elif name.count(',') == 1:
+    #Single author , sep
+    elif name.count(',') == 1 and len(name.split(',')[0].split(" ")) == 1:
         return name.split(',')[1].strip(' ') + " " + name.split(',')[0]
+    #multiple author , sep and lastname firstname order
+    elif name.count(',') > 1 and name.count(',') % 2:
+        names = name.split(',')
+        counter = 0
+        fixed_names = []
+        while counter < len(names):
+            fixed_names.append(names[counter + 1].strip() + " " + names[counter].strip())
+            counter += 2
     else:
         return name
 
 #THIS IS DONE WITH THE REPLACE (*) in author
-#def remove_etal(name):
-#    name = name.replace(r'\(?.*editor.*\)?', "")
+def remove_etal(name):
+    name = name.replace(r"\(.*\)", "")
+    name = name.replace(r"etc", "")
     #name = name.replace(r'')
+    return name
 
 #df['title'] = df['title'].str.replace(r'[^\w\s]','')
 
@@ -92,4 +114,6 @@ if __name__ == '__main__':
     df.to_csv('cleaned.csv', index=False)
     
     #making the tables and their info
-    
+    #for ind in df.index:
+        #print(df['book'][ind],df['author'][ind])
+
