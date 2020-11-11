@@ -20,6 +20,8 @@ def clean_author(df):
     print(df['author'])
 
 def name_swap(name):
+    if name is None:
+        return
     if name.count(',') == 1:
         return name.split(',')[1].strip(' ') + " " + name.split(',')[0]
     else:
@@ -34,13 +36,48 @@ def remove_etal(name):
 
 
 
-#binding
-#Publisher
-#descr
+def clean_binding(df: pd.DataFrame):
+    df['binding'] = df['binding'].str.lower()
+    df['binding'] = df['binding'].str.replace("singleissuemagazine", "single issue magazine")
+    df['binding'] = df['binding'].str.replace("dust jacket", "")
+    df['binding'] = df['binding'].str.replace("with", "")
+    df['binding'] = df['binding'].str.strip()
+    df['binding'] = df['binding'].str.replace(r"\(.*\)", "")
+    df['binding'] = df['binding'].str.replace("hardback", "hardcover")
+    df['binding'] = df['binding'].str.replace("hard back", "hardcover")
+    df['binding'] = df['binding'].str.replace("hard cover", "hardcover")
+    df['binding'] = df['binding'].str.replace("soft cover", "paperback")
+    df['binding'] = df['binding'].str.replace("soft back", "paperback")
+    df['binding'] = df['binding'].str.replace("softcover", "paperback")
+    df['binding'] = df['binding'].str.replace("softback", "paperback")
+    df['binding'] = df['binding'].str.replace("mass market paperback", "paperback")
+    df['binding'] = df['binding'].apply(binding_pull)
+    
+    
+
+def binding_pull(binding: str):
+    if (binding is np.nan):
+        return
+    if ("paperback" in binding):
+        return "paperback"
+    return binding
+
+def clean_publisher(df: pd.DataFrame):
+    df['publisher'] = df['publisher'].str.replace(r'[ \?\.,].*', "")
+    print(df['publisher'])
+
+def clean_descr(df: pd.DataFrame):
+    df['descr'] = df['descr'].str.replace(r'Bookseller Inventory.*', "")
+    print(df.iloc[17]['descr'])
+  
 
 if __name__ == '__main__':
-    df = pd.read_csv('inventory.csv')
-    #pd.set_option('display.max_columns', None)
+    df = pd.read_csv('CS5300/inventory.csv')
+    pd.set_option('display.max_columns', None)
     #print(df.head())
     clean_title(df)
     clean_author(df)
+   
+    clean_descr(df)
+    clean_publisher(df)
+    clean_binding(df)
