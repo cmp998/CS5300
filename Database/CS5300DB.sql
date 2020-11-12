@@ -42,7 +42,7 @@ CREATE TABLE BookCopies (
 CREATE TABLE Authors (
 	BookID BIGINT DEFAULT UUID_SHORT() NOT NULL,
 	AuthorID INT DEFAULT UUID_SHORT() NOT NULL,
-	AuthorName varchar(50),
+	AuthorName varchar(160),
 	PRIMARY KEY (BookID, AuthorID),
 	Foreign Key (BookID) References BookInfo(BookID)
 );
