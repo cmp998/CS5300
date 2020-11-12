@@ -46,3 +46,19 @@ CREATE TABLE Authors (
 	PRIMARY KEY (BookID, AuthorID),
 	Foreign Key (BookID) References BookInfo(BookID)
 );
+
+-- Report 1
+SELECT AuthorName, COUNT(*) FROM Authors 
+GROUP BY AuthorName;
+-- Report 2
+SELECT AuthorName, Title FROM Authors
+INNER JOIN BookInfo
+ON Authors.BookID = BookInfo.BookID;
+
+SELECT Count(BookID) AS "Books In Collection" FROM BookCopies;
+-- Report 3
+SELECT Publisher, COUNT(*) FROM BookInfo
+GROUP BY Publisher;
+-- Report 4
+SELECT Title FROM BookInfo
+WHERE Publisher = 0 OR PubDate = 0 OR Isbn10 = 0 OR Isbn13 = 0;
