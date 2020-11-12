@@ -166,12 +166,14 @@ if __name__ == '__main__':
 
 
     authors = {}
+    counter = 0
     for ind in df.index:
-        bookID = book_info[df['title'][ind]][0]
+        bookID = book_info[df['title'][counter]][0]
         name_list = (df['author'][ind]).split(',')
         for name in name_list:
             if name not in authors.keys():
-                authors[name] = [[bookID], ind]
+                authors[name] = [[bookID], counter]
+                counter += 1
             elif bookID not in authors[name][0]:
                 authors[name][0].append(bookID)
 
