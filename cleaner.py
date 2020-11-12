@@ -106,7 +106,15 @@ def clean_descr(df: pd.DataFrame):
   
 
 if __name__ == '__main__':
+    pd.set_option('precision', 0)
     df = pd.read_csv('inventory.csv')
+    df = df.fillna('0')
+    df['isbn13'] = df['isbn13'].astype(int)
+    print(len(df['title'][767]))
+    # Problems, Data too long to fit into an int
+    # Duplicate BookID keys
+    df['copyID'] - df['copyID'].astype('int64')
+    
     pd.set_option('display.max_columns', None)
     #print(df.head())
     clean_title(df)
@@ -145,7 +153,6 @@ if __name__ == '__main__':
     for ind in df.index:
        copyID = df['copyID'][ind]
        bookID = book_info[df['title'][ind]][0]
-       book_copies[copyID] =  bookID
     
     with open('bookcopies.csv', 'w') as csvfile:
         write = csv.writer(csvfile)
@@ -163,6 +170,9 @@ if __name__ == '__main__':
                 authors[name] = [[bookID], ind]
             elif bookID not in authors[name][0]:
                 authors[name][0].append(bookID)
+
+
+    #
 
     with open('authors.csv', 'w') as csvfile:
         write = csv.writer(csvfile)
