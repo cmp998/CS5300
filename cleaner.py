@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import csv
 
 def clean_title(df):
     #title
@@ -51,6 +52,7 @@ def name_swap(name):
         while counter < len(names):
             fixed_names.append(names[counter + 1].strip() + " " + names[counter].strip())
             counter += 2
+        return ",".join(fixed_names)
     else:
         return name
 
@@ -98,6 +100,8 @@ def clean_publisher(df: pd.DataFrame):
 
 def clean_descr(df: pd.DataFrame):
     df['descr'] = df['descr'].str.replace(r'Bookseller Inventory.*', "")
+    df['descr'] = df['descr'].str.replace(r'Ask Seller a Question.*', "")
+    df['descr'] = df['descr'].str.strip()
     #print(df.iloc[17]['descr'])
   
 
@@ -111,9 +115,85 @@ if __name__ == '__main__':
     clean_descr(df)
     clean_publisher(df)
     clean_binding(df)
-    df.to_csv('cleaned.csv', index=False)
-    
-    #making the tables and their info
-    #for ind in df.index:
-        #print(df['book'][ind],df['author'][ind])
+    df.to_csv('cleaned.csv')
 
+
+
+    # book info
+    book_info = {}
+    for ind in df.index:
+        title = df['title'][ind]
+        if title not in book_info.keys():  
+            book_info[title] = [ind, df['publisher'][ind], df['pubdate'][ind], df['isbn10'][ind], df['isbn13'][ind]]
+        else:
+            if book_info[title][1] == np.nan:
+                book_info[title][1] = df['publisher'][ind]
+            if book_info[title][2] == np.nan:
+                book_info[title][2] = df['pubdate'][ind]
+            if book_info[title][3] == np.nan:
+                book_info[title][3] = df['isbn10'][ind]
+            if book_info[title][4] == np.nan:
+                book_info[title][4] = df['isnb13'][ind]
+    
+    with open('bookinfo.csv', 'w') as csvfile:
+        write = csv.writer(csvfile)
+        write.writerow(['bookid', 'title', 'publisher', 'pubdate', 'isbn10', 'isbn13'])
+        for title in book_info:
+            write.writerow([book_info[title][0], title, book_info[title][1], book_info[title][2], book_info[title][3], book_info[title][4]])
+
+    book_copies = {}
+    for ind in df.index:
+       copyID = df['copyID'][ind]
+       bookID = book_info[df['title'][ind]][0]
+       book_copies[copyID] =  bookID
+    
+    with open('bookcopies.csv', 'w') as csvfile:
+        write = csv.writer(csvfile)
+        write.writerow(['copyid', 'bookid'])
+        for copy in book_copies:
+            write.writerow([copy, book_copies[copy]])
+
+
+    authors = {}
+    for ind in df.index:
+        bookID = book_info[df['title'][ind]][0]
+        name_list = (df['author'][ind]).split(',')
+        for name in name_list:
+            if name not in authors.keys():
+                authors[name] = [[bookID], ind]
+            elif bookID not in authors[name][0]:
+                authors[name][0].append(bookID)
+
+    with open('authors.csv', 'w') as csvfile:
+        write = csv.writer(csvfile)
+        write.writerow(['authorid', 'bookid', 'authorname'])
+        for author in authors:
+            for book in authors[author][0]:
+                write.writerow([authors[author][1], book, author])
+    
+    
+            
+    with open('generalcopymiscellaneous.csv', 'w') as csvfile:
+        write = csv.writer(csvfile)
+        write.writerow(['copyid', 'edition', 'aboutauthor','synopsis'])
+        for ind in df.index:
+            copyid = df['copyID'][ind]
+            edition = df['edition'][ind]
+            aboutauthor = df['about_auth'][ind]
+            synopsis = df['synopsis'][ind]
+            write.writerow([copyid, edition, aboutauthor, synopsis])
+
+
+    with open('physicalcopyqualities.csv', 'w') as csvfile:
+        write = csv.writer(csvfile)
+        write.writerow(['copyid','condition', 'price', 'signed', 'dustjacket', 'binding', 'description'])
+        for ind in df.index:
+            copyid = df['copyID'][ind]
+            condition = df['condition'][ind] 
+            price = df['price'][ind]
+            signed = df['signed'][ind]
+            dustjacket = df['dustjacket'][ind]
+            binding = df['binding'][ind]
+            descr = df['descr'][ind]
+
+            write.writerow([copyid, condition, price, signed, dustjacket, binding, descr])
