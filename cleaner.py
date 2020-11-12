@@ -110,7 +110,7 @@ if __name__ == '__main__':
     df = pd.read_csv('inventory.csv')
     df = df.fillna('0')
     df['isbn13'] = df['isbn13'].astype(int)
-    print(len(df['title'][767]))
+    #print(len(df['title'][767]))
     # Problems, Data too long to fit into an int
     # Duplicate BookID keys
     df['copyID'] - df['copyID'].astype('int64')
@@ -124,7 +124,6 @@ if __name__ == '__main__':
     clean_publisher(df)
     clean_binding(df)
     df.to_csv('cleaned.csv')
-
 
 
     # book info
@@ -151,13 +150,18 @@ if __name__ == '__main__':
 
     book_copies = {}
     for ind in df.index:
+       
        copyID = df['copyID'][ind]
        bookID = book_info[df['title'][ind]][0]
+       book_copies[copyID] = bookID
+    
+
     
     with open('bookcopies.csv', 'w') as csvfile:
         write = csv.writer(csvfile)
         write.writerow(['copyid', 'bookid'])
         for copy in book_copies:
+            #print(copy)
             write.writerow([copy, book_copies[copy]])
 
 
