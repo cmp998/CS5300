@@ -10,14 +10,14 @@ from django.db import models
 # Create your models here.
 class BookInfo(models.Model):
     bookID = models.IntegerField(primary_key=True)
-    title = models.CharField(max_length=200)
-    publisher = models.CharField(max_length=200)
-    pubDate = models.IntegerField()
-    isbn10 = models.IntegerField()
-    isbn13 = models.IntegerField()
+    title = models.CharField(max_length=200, null=True, blank=True)
+    publisher = models.CharField(max_length=200, null = True, blank=True)
+    pubDate = models.IntegerField(null = True, blank=True)
+    isbn10 = models.CharField(max_length = 15, null = True, blank=True)
+    isbn13 = models.CharField(max_length = 15, null = True, blank=True)
 
     def __str__(self):
-        return str(self.bookID) + " : " + self.title
+        return str(self.bookID) + " : " + str(self.title)
 
 class BookCopies(models.Model):
     copyID = models.IntegerField()
@@ -32,10 +32,10 @@ class BookCopies(models.Model):
 class Authors(models.Model):
     authorID = models.IntegerField()
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
-    authorName = models.CharField(max_length=200)
+    authorName = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return str(self.authorID) + " : " + self.authorName
+        return str(self.authorID) + " : " + self.authorName 
 
     class Meta:
         unique_together = (("authorID", "book"),)
@@ -43,25 +43,25 @@ class Authors(models.Model):
 
 class PhysicalCopyQualities(models.Model):
     copy = models.OneToOneField(BookCopies, primary_key=True, on_delete=models.CASCADE)
-    condition = models.CharField(max_length=200)
-    price = models.CharField(max_length=200)
-    signed = models.CharField(max_length=200)
-    dustjacket = models.CharField(max_length=200)
-    binding = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    condition = models.CharField(max_length=200, null=True, blank=True)
+    price = models.CharField(max_length=200, null=True, blank=True)
+    signed = models.CharField(max_length=200, null=True, blank=True)
+    dustjacket = models.CharField(max_length=200, null=True, blank=True)
+    binding = models.CharField(max_length=200, null=True, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return str(self.copy.copyID) + " : " + self.condition
+        return str(self.copy.copyID) + " : " + str(self.condition)
 
 
 class GeneralCopyMiscellaneous(models.Model):
     copy = models.OneToOneField(BookCopies, primary_key=True, on_delete=models.CASCADE)
-    edition = models.CharField(max_length=200)
-    about_auth = models.CharField(max_length=200)
-    synopsis = models.CharField(max_length=200)
+    edition = models.CharField(max_length=200, null=True, blank=True)
+    about_auth = models.CharField(max_length=200, null=True, blank=True)
+    synopsis = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return str(self.copy.copyID)
+        return str(self.copy.copyID) + ":" + str(self.edition) + ":" + str(self.about_auth) + ":" + str(self.synopsis)
 
 
     
