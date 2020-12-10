@@ -4,8 +4,8 @@ import sys, os, csv
 
 
 def index(request):
-    
-    return HttpResponse("Hello world. You're at the library index")
+    dictionary = {"books": [{"book1" : "page1"}, {"book2": "page2"}]}
+    return render(request, 'library.html', dictionary)
 
 
 # Create your views here.

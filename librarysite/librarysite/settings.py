@@ -55,7 +55,7 @@ ROOT_URLCONF = 'librarysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['librarysite/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
