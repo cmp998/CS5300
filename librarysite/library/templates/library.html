@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for book in books %}
-        <h1>{{book}}</h1>
-    {% endfor %}
+    <div class="mx-auto" style="padding-left: 250px; padding-right: 250px; padding-top: 25px">
+        <h2 class="text-monospace">Books</h2>
+            
+            {% for book in books %}
+                <div class="card">
+                    <div class= "row">
+                        <div class="card-body align-middle" style="max-width: 60rem;">
+                            <h5 class="card-title text-capitalize">{{book.title}}</h5>
+                            <p class="card-text text-muted text-capitalize">{{book.author}}</p>
+                        
+                        </div>
+                        <div class="">
+                            <a href="{{book.book_id}}" class="btn btn-primary">View Available Copies</a>
+                        </div>
+                        
+                        
+                    </div>
+              </div>
+              
+            {% endfor %}
+            
+    </div>
 {% endblock %}
 
