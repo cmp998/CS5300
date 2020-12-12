@@ -2,10 +2,18 @@
 {% block content %}
     <div class="mx-auto" style="padding-left: 250px; padding-right: 250px; padding-top: 25px">
         <h2 class="text-monospace">Authors</h2>
-        <ul class="list-group text-capitalize">
+       
             {% for author in authors %}
-                <li class="list-group-item">{{author.name}}</li>
+                
+
+                    <div class="card flex-row justify-content-between mb-3">
+                        <h3 class="text-capitalize d-flex" style="padding-left: 1rem; padding-top: 10px">{{author.name}}</h3>
+                        <a href="/authorsbooks/{{author.author_id}}" class="d-flex btn btn-primary">View All Bookies by This Author</a>
+                        
+                    </div>
+                    
+             
             {% endfor %}
-        </ul>
+        
     </div>
 {% endblock %}

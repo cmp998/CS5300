@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import BookCopies, Authors,PhysicalCopyQualities,GeneralCopyMiscellaneous, BookInfo
+from .models import BookCopies, Authors, PhysicalCopyQualities,GeneralCopyMiscellaneous, BookInfo
 import sys, os, csv
 
 
@@ -54,9 +54,22 @@ def author(request):
     authorList = []
     for author in query:
         print(author)
-        authorList.append({"name": author['authorName']})
+        authorList.append({"name": author['authorName'], "author_id": author['authorID']})
     dictionary = {"authors": authorList}
     return render(request, 'author.html', dictionary)
 
+
+def authorBooks(request, authorID):
+    query = Authors.objects.values("authorID", "book", "authorName").filter(authorID=authorID)
+
+    bookList = []
+    for author in query:
+        print(author)
+        b = BookInfo.objects.filter(bookID=author['book'])
+
+        bookList.append({"title": b[0].title, "bookID": b[0].bookID})
+    dictionary = {"books": bookList, "author": query[0]['authorName']}
+    return render(request, 'authorbooks.html', dictionary)
+
 def editions(request):
-    return render(request, "editions.html", dictionary)
+    return render(request, "editions.html")
