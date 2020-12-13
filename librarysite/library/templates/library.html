@@ -2,25 +2,18 @@
 {% block content %}
     <div class="mx-auto" style="padding-left: 250px; padding-right: 250px; padding-top: 25px">
         <h2 class="text-monospace">Books</h2>
+        <div class="">
+            <form class="form-inline input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i id="search-icon" class="fas fa-search" aria-hidden="true"></i></span>
+                  </div>
             
-            {% for book in books %}
-                <div class="card">
-                    <div class= "row">
-                        <div class="card-body align-middle" style="max-width: 60rem;">
-                            <h5 class="card-title text-capitalize">{{book.title}}</h5>
-                            <p class="card-text text-muted text-capitalize">{{book.author}}</p>
-                        
-                        </div>
-                        <div class="">
-                            <a href="{{book.book_id}}" class="btn btn-primary">View Available Copies</a>
-                        </div>
-                        
-                        
-                    </div>
-              </div>
-              
-            {% endfor %}
-            
+                <input id="user-input" class="form-control form-control-sm 5" style="min-width: 50rem" type="text" placeholder="Book Title" aria-label="Search">
+            </form>
+        </div>
+            <div id="replaceable-content">
+                {% include 'books.html' %}
+            </div>
     </div>
 {% endblock %}
 

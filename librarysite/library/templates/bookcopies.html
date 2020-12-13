@@ -1,0 +1,60 @@
+{% if books %}
+    {% for book in books %}
+        <div class="card  mb-3">
+            <div class= "row flex-row justify-content-between ">
+                <div class="d-flex flex-column card-body align-middle" style="max-width: 60rem;">
+                    <h5 class="h3 text-capitalize">{{book.title}}</h5>
+                    {% if book.author %}
+                    <p class="card-text text-muted text-capitalize"><b>Author:</b> {{book.author}}</p>
+                    {% endif %}
+                    {% if book.isbn10 %}
+                    <p class="card-text text-muted text-capitalize"><b>ISBN10:</b> {{book.isbn10}}</p>
+                    {% endif %}
+                    {% if book.isbn13 %}
+                    <p class="card-text text-muted text-capitalize"><b>ISBN13:</b> {{book.isbn13}}</p>
+                    {% endif %}
+                    {% if book.publisher %}
+                    <p class="card-text text-muted text-capitalize"><b>Publisher:</b> {{book.publisher}}</p>
+                    {% endif %}
+                    {% if book.pubDate %}
+                    <p class="card-text text-muted text-capitalize"><b>Published On:</b> {{book.pubDate}}</p>
+                    {% endif %}
+                    {% if book.binding %}
+                    <p class="card-text text-muted text-capitalize"><b>Binding:</b> {{book.binding}}</p>
+                    {% endif %}
+                    {% if book.condition %}
+                    <p class="card-text text-muted text-capitalize"><b>condition:</b> {{book.condition}}</p>
+                    {% endif %}
+                    {% if book.price %}
+                    <p class="card-text text-muted text-capitalize"><b>price:</b> {{book.price}}</p>
+                    {% endif %}
+                    {% if book.signed %}
+                    <p class="card-text text-muted text-capitalize"><b>signed:</b> {{book.signed}}</p>
+                    {% endif %}
+                    {% if book.dustjacket %}
+                    <p class="card-text text-muted text-capitalize"><b>dustjacket:</b> {{book.dustjacket}}</p>
+                    {% endif %}
+                    {% if book.description %}
+                    <p class="card-text text-muted text-capitalize"><b>description:</b> {{book.description}}</p>
+                    {% endif %}
+                    {% if book.about_auth %}
+                    <p class="card-text text-muted text-capitalize"><b>About the Author:</b> {{book.about_auth}}</p>
+                    {% endif %}
+                    {% if book.edition %}
+                    <p class="card-text text-muted text-capitalize"><b>edition:</b> {{book.edition}}</p>
+                    {% endif %}
+                    {% if book.synopsis %}
+                    <p class="card-text text-muted text-capitalize"><b>synopsis:</b> {{book.synopsis}}</p>
+                    {% endif %}
+                 
+                 
+                
+                </div>
+                
+                
+                
+            </div>
+        </div>
+    
+    {% endfor %}
+{% endif %}

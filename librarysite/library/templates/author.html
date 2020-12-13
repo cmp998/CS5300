@@ -2,18 +2,18 @@
 {% block content %}
     <div class="mx-auto" style="padding-left: 250px; padding-right: 250px; padding-top: 25px">
         <h2 class="text-monospace">Authors</h2>
-       
-            {% for author in authors %}
+            <div class="align-left">
+                <form class="form-inline input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i id="search-icon" class="fas fa-search" aria-hidden="true"></i></span>
+                      </div>
                 
-
-                    <div class="card flex-row justify-content-between mb-3">
-                        <h3 class="text-capitalize d-flex" style="padding-left: 1rem; padding-top: 10px">{{author.name}}</h3>
-                        <a href="/authorsbooks/{{author.author_id}}" class="d-flex btn btn-primary">View All Bookies by This Author</a>
-                        
-                    </div>
-                    
-             
-            {% endfor %}
+                    <input id="user-input" class="form-control form-control-sm 5" style="min-width: 50rem" type="text" placeholder="Author's Name" aria-label="Search">
+                </form>
+            </div>
+            <div id="replaceable-content">
+                {% include 'authors-search.html' %}
+            </div>
         
     </div>
 {% endblock %}
