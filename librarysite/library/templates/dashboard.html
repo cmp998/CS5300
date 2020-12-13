@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="mx-auto" style="padding-left: 125px; padding-right: 125px; padding-top: 25px">
+    
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel panel-dark panel-colorful">
+                    <div class="panel-body text-center">
+                        <p class="text-uppercase mar-btm text-sm">Books for Sale</p>
+                        <i class="fa fa-book fa-5x"></i>
+                        <hr>
+                        <p class="h2 text-thin">{{books}}</p>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel panel-danger panel-colorful">
+                    <div class="panel-body text-center">
+                        <p class="text-uppercase mar-btm text-sm">Unique Books</p>
+                        <i class="fa fa-book-open fa-5x"></i>
+                        <hr>
+                        <p class="h2 text-thin">{{copies}}</p>
+                  
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel panel-primary panel-colorful">
+                    <div class="panel-body text-center">
+                        <p class="text-uppercase mar-btm text-sm">Unique Authors</p>
+                        <i class="fa fa-users fa-5x"></i>
+                        <hr>
+                        <p class="h2 text-thin">{{authors}}</p>
+                       
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+   
+</div>
+{% endblock %}

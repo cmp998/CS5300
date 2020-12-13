@@ -100,5 +100,14 @@ def authorBooks(request, authorID):
     dictionary = {"books": bookList, "author": query[0]['authorName']}
     return render(request, 'authorbooks.html', dictionary)
 
-def editions(request):
-    return render(request, "editions.html")
+def dashboard(request):
+    bks = len(BookCopies.objects.values("book")[:])
+    bookcopies = len(BookInfo.objects.values("bookID")[:].distinct())
+    authors = len(Authors.objects.values("authorID").distinct()[:])
+
+    print(bks)
+    print(bookcopies)
+    print(authors)
+    dictionary = {"books": bks, "copies": bookcopies, "authors": authors}
+
+    return render(request, "dashboard.html", dictionary)
